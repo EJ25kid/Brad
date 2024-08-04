@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Reports - Brad Tennis Ladder App</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Generate Reports</h1>
+        <form id="reportForm">
+            <div class="form-group">
+                <label for="reportType">Report Type</label>
+                <select class="form-control" id="reportType" required>
+                    <option value="">Select a report type</option>
+                    <option value="playerActivity">Player Activity</option>
+                    <option value="ladderStatistics">Ladder Statistics</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="startDate">Start Date</label>
+                <input type="date" class="form-control" id="startDate" required>
+            </div>
+            <div class="form-group">
+                <label for="endDate">End Date</label>
+                <input type="date" class="form-control" id="endDate" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Generate Report</button>
+        </form>
+        <div id="reportMessage" class="mt-3"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById('reportForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const reportData = {
+                reportType: document.getElementById('reportType').value,
+                startDate: document.getElementById('startDate').value,
+                endDate: document.getElementById('endDate').value
+            };
+
+            console.log('Generating report with data:', reportData);
+            // Replace the following line with an actual server request
+            // Example: generateReport(reportData);
+
+            // Simulate server response
+            setTimeout(() => {
+                const reportLink = document.createElement('a');
+                reportLink.href = 'path/to/generated/report.pdf'; // Replace with actual report URL
+                reportLink.download = `${reportData.reportType}_report.pdf`;
+                reportLink.innerText = 'Download Report';
+                document.getElementById('reportMessage').innerText = '';
+                document.getElementById('reportMessage').appendChild(reportLink);
+                document.getElementById('reportMessage').classList.add('alert', 'alert-success');
+            }, 1000);
+        });
+
+        // Example function to generate report on the server (to be implemented)
+        function generateReport(data) {
+            fetch('/generate-report', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(result => {
+                const reportLink = document.createElement('a');
+                reportLink.href = result.reportUrl;
+                reportLink.download = `${data.reportType}_report.pdf`;
+                reportLink.innerText = 'Download Report';
+                document.getElementById('reportMessage').innerText = '';
+                document.getElementById('reportMessage').appendChild(reportLink);
+                document.getElementById('reportMessage').classList.add('alert', 'alert-success');
+            })
+            .catch(error => {
+                document.getElementById('reportMessage').innerText = 'Error generating report. Please try again.';
+                document.getElementById('reportMessage').classList.add('alert', 'alert-danger');
+            });
+        }
+    </script>
+</body>
+</html>

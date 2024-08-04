@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Challenges - Brad Tennis Ladder App</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Manage Challenges</h1>
+        <div id="challengeList" class="mb-4">
+            <!-- Challenges will be populated here -->
+        </div>
+        <div id="challengeResult" class="mt-3"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sample data - replace this with actual server data
+            const challenges = [
+                { challenger: 'John Doe', date: '2023-07-20', availableDates: ['2023-07-21', '2023-07-22'], status: 'pending' },
+                { challenger: 'Alice Johnson', date: '2023-07-18', availableDates: ['2023-07-19', '2023-07-20'], status: 'pending' }
+            ];
+
+            const challengeListDiv = document.getElementById('challengeList');
+
+            challenges.forEach((challenge, index) => {
+                const challengeCard = document.createElement('div');
+                challengeCard.className = 'card mb-3';
+                challengeCard.innerHTML = `
+                    <div class="card-body">
+                        <h5 class="card-title">${challenge.challenger} has challenged you!</h5>
+                        <p class="card-text">Proposed Match Date: ${challenge.date}</p>
+                        <p class="card-text">Available Dates: ${challenge.availableDates.join(', ')}</p>
+                        <button class="btn btn-success" onclick="respondToChallenge(${index}, 'accept')">Accept</button>
+                        <button class="btn btn-danger" onclick="respondToChallenge(${index}, 'decline')">Decline</button>
+                    </div>
+                `;
+                challengeListDiv.appendChild(challengeCard);
+            });
+        });
+
+        function respondToChallenge(index, response) {
+            const challengeResultDiv = document.getElementById('challengeResult');
+            // Simulate server response
+            setTimeout(() => {
+                if (response === 'accept') {
+                    challengeResultDiv.innerText = `You have accepted the challenge!`;
+                    challengeResultDiv.className = 'alert alert-success';
+                } else {
+                    challengeResultDiv.innerText = `You have declined the challenge.`;
+                    challengeResultDiv.className = 'alert alert-danger';
+                }
+            }, 500);
+
+            // Actual implementation should send the response to the server
+            /*
+            fetch(`/respond-to-challenge/${index}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ response }),
+            })
+            .then(response => response.json())
+            .then(result => {
+                challengeResultDiv.innerText = `You have ${response}ed the challenge.`;
+                challengeResultDiv.className = `alert alert-${response === 'accept' ? 'success' : 'danger'}`;
+            })
+            .catch(error => {
+                challengeResultDiv.innerText = 'Error responding to challenge. Please try again.';
+                challengeResultDiv.className = 'alert alert-danger';
+            });
+            */
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Players - Brad Tennis Ladder App</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Manage Players</h1>
+        <div id="playerList" class="mb-4">
+            <!-- Player list will be populated here -->
+        </div>
+        <div id="playerFormContainer" class="mb-4">
+            <h2>Edit Player</h2>
+            <form id="playerForm">
+                <div class="form-group">
+                    <label for="playerName">Name</label>
+                    <input type="text" class="form-control" id="playerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="playerEmail">Email</label>
+                    <input type="email" class="form-control" id="playerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="playerRanking">Ranking</label>
+                    <input type="number" class="form-control" id="playerRanking" required>
+                </div>
+                <div class="form-group">
+                    <label for="playerPreferredFormat">Preferred Format</label>
+                    <select class="form-control" id="playerPreferredFormat" required>
+                        <option value="Singles">Singles</option>
+                        <option value="Doubles">Doubles</option>
+                        <option value="Mixed Doubles">Mixed Doubles</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="playerPreferredPartner">Preferred Partner</label>
+                    <input type="text" class="form-control" id="playerPreferredPartner">
+                </div>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+        </div>
+        <div id="playerMessage" class="mt-3"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sample data - replace this with actual server data
+            const players = [
+                { id: 1, name: 'John Doe', email: 'john@example.com', ranking: 1, preferred_format: 'Singles', preferred_partner: 'Jane Smith' },
+                { id: 2, name: 'Jane Smith', email: 'jane@example.com', ranking: 2, preferred_format: 'Doubles', preferred_partner: 'John Doe' },
+                { id: 3, name: 'Alice Johnson', email: 'alice@example.com', ranking: 3, preferred_format: 'Mixed Doubles', preferred_partner: 'Bob Johnson' }
+            ];
+
+            const playerListDiv = document.getElementById('playerList');
+
+            players.forEach(player => {
+                const playerCard = document.createElement('div');
+                playerCard.className = 'card mb-3';
+                playerCard.innerHTML = `
+                    <div class="card-body">
+                        <h5 class="card-title">${player.name}</h5>
+                        <p class="card-text">Email: ${player.email}</p>
+                        <p class="card-text">Ranking: ${player.ranking}</p>
+                        <p class="card-text">Preferred Format: ${player.preferred_format}</p>
+                        <p class="card-text">Preferred Partner: ${player.preferred_partner}</p>
+                        <button class="btn btn-warning" onclick="editPlayer(${player.id})">Edit</button>
+                        <button class="btn btn-danger" onclick="deletePlayer(${player.id})">Delete</button>
+                    </div>
+                `;
+                playerListDiv.appendChild(playerCard);
+            });
+        });
+
+        function editPlayer(id) {
+            // Fetch player data based on ID
+            const player = players.find(p => p.id === id);
+            document.getElementById('playerName').value = player.name;
+            document.getElementById('playerEmail').value = player.email;
+            document.getElementById('playerRanking').value = player.ranking;
+            document.getElementById('playerPreferredFormat').value = player.preferred_format;
+            document.getElementById('playerPreferredPartner').value = player.preferred_partner;
+
+            document.getElementById('playerForm').onsubmit = function(event) {
+                event.preventDefault();
+                // Update player data (to be implemented)
+                updatePlayer(id, {
+                    name: document.getElementById('playerName').value,
+                    email: document.getElementById('playerEmail').value,
+                    ranking: document.getElementById('playerRanking').value,
+                    preferred_format: document.getElementById('playerPreferredFormat').value,
+                    preferred_partner: document.getElementById('playerPreferredPartner').value
+                });
+            };
+        }
+
+        function updatePlayer(id, data) {
+            console.log('Updating player', id, data);
+            // Replace the following line with an actual server request
+            // Example: sendUpdateToServer(id, data);
+
+            // Simulate server response
+            setTimeout(() => {
+                document.getElementById('playerMessage').innerText = 'Player updated successfully!';
+                document.getElementById('playerMessage').classList.add('alert', 'alert-success');
+            }, 1000);
+        }
+
+        function deletePlayer(id) {
+            console.log('Deleting player', id);
+            // Replace the following line with an actual server request
+            // Example: sendDeleteToServer(id);
+
+            // Simulate server response
+            setTimeout(() => {
+                document.getElementById('playerMessage').innerText = 'Player deleted successfully!';
+                document.getElementById('playerMessage').classList.add('alert', 'alert-danger');
+                document.getElementById('playerList').innerHTML = ''; // Clear the list
+                // Reload player list (to be implemented)
+                loadPlayers();
+            }, 1000);
+        }
+
+        function loadPlayers() {
+            // Fetch and display updated player list (to be implemented)
+        }
+
+        // Example function to send update to server (to be implemented)
+        function sendUpdateToServer(id, data) {
+            fetch(`/update-player/${id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(result => {
+                document.getElementById('playerMessage').innerText = 'Player updated successfully!';
+                document.getElementById('playerMessage').classList.add('alert', 'alert-success');
+            })
+            .catch(error => {
+                document.getElementById('playerMessage').innerText = 'Error updating player. Please try again.';
+                document.getElementById('playerMessage').classList.add('alert', 'alert-danger');
+            });
+        }
+
+        // Example function to send delete to server (to be implemented)
+        function sendDeleteToServer(id) {
+            fetch(`/delete-player/${id}`, {
+                method: 'DELETE',
+            })
+            .then(response => response.json())
+            .then(result => {
+                document.getElementById('playerMessage').innerText = 'Player deleted successfully!';
+                document.getElementById('playerMessage').classList.add('alert', 'alert-danger');
+                loadPlayers();
+            })
+            .catch(error => {
+                document.getElementById('playerMessage').innerText = 'Error deleting player. Please try again.';
+                document.getElementById('playerMessage').classList.add('alert', 'alert-danger');
+            });
+        }
+    </script>
+</body>
+</html>

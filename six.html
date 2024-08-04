@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Record Match Results - Brad Tennis Ladder App</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Record Match Results</h1>
+        <form id="resultForm">
+            <div class="form-group">
+                <label for="team1">Team Name 1</label>
+                <input type="text" class="form-control" id="team1" readonly>
+            </div>
+            <div class="form-group">
+                <label for="team2">Team Name 2</label>
+                <select class="form-control" id="team2" required>
+                    <option value="">Select a team</option>
+                    <option value="Jane Smith's Team">Jane Smith's Team</option>
+                    <option value="Alice Johnson's Team">Alice Johnson's Team</option>
+                    <option value="Bob Johnson's Team">Bob Johnson's Team</option>
+                    <!-- Add more team options here -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="matchDate">Match Date</label>
+                <input type="date" class="form-control" id="matchDate" required>
+            </div>
+            <div class="form-group">
+                <label for="result">Match Result</label>
+                <input type="text" class="form-control" id="result" placeholder="Enter match result (e.g., 6-4, 7-5)" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Result</button>
+        </form>
+        <div id="resultMessage" class="mt-3"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Replace this with actual logic to get the logged-in user's team name
+            const loggedInUserTeamName = "John Doe's Team"; // Example team name
+            document.getElementById('team1').value = loggedInUserTeamName;
+
+            document.getElementById('resultForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const matchData = {
+                    team1: document.getElementById('team1').value,
+                    team2: document.getElementById('team2').value,
+                    matchDate: document.getElementById('matchDate').value,
+                    result: document.getElementById('result').value

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match History - Brad Tennis Ladder App</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Match History</h1>
+        <div id="matchHistory" class="mb-4">
+            <!-- Match history will be populated here -->
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sample data - replace this with actual server data
+            const matches = [
+                { id: 1, team1: 'John Doe\'s Team', team2: 'Jane Smith\'s Team', date: '2023-07-16', result: '6-4, 6-3' },
+                { id: 2, team1: 'Alice Johnson\'s Team', team2: 'Bob Johnson\'s Team', date: '2023-07-14', result: '4-6, 7-5, 6-2' }
+            ];
+
+            const matchHistoryDiv = document.getElementById('matchHistory');
+
+            matches.forEach(match => {
+                const matchCard = document.createElement('div');
+                matchCard.className = 'card mb-3';
+                matchCard.innerHTML = `
+                    <div class="card-body">
+                        <h5 class="card-title">${match.team1} vs ${match.team2}</h5>
+                        <p class="card-text">Date: ${match.date}</p>
+                        <p class="card-text">Result: ${match.result}</p>
+                    </div>
+                `;
+                matchHistoryDiv.appendChild(matchCard);
+            });
+        });
+    </script>
+</body>
+</html>

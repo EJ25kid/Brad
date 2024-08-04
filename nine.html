@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resolve Disputes - Brad Tennis Ladder App</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Resolve Disputes</h1>
+        <div id="disputeList" class="mb-4">
+            <!-- Dispute list will be populated here -->
+        </div>
+        <div id="disputeMessage" class="mt-3"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sample data - replace this with actual server data
+            const disputes = [
+                { id: 1, player1: 'John Doe', player2: 'Jane Smith', issue: 'Disagreement on match result', date: '2023-07-16', status: 'pending' },
+                { id: 2, player1: 'Alice Johnson', player2: 'Bob Johnson', issue: 'Scheduling conflict', date: '2023-07-14', status: 'pending' }
+            ];
+
+            const disputeListDiv = document.getElementById('disputeList');
+
+            disputes.forEach(dispute => {
+                const disputeCard = document.createElement('div');
+                disputeCard.className = 'card mb-3';
+                disputeCard.innerHTML = `
+                    <div class="card-body">
+                        <h5 class="card-title">${dispute.player1} vs ${dispute.player2}</h5>
+                        <p class="card-text">Issue: ${dispute.issue}</p>
+                        <p class="card-text">Date: ${dispute.date}</p>
+                        <p class="card-text">Status: ${dispute.status}</p>
+                        <button class="btn btn-success" onclick="resolveDispute(${dispute.id}, 'resolved')">Resolve</button>
+                        <button class="btn btn-danger" onclick="resolveDispute(${dispute.id}, 'rejected')">Reject</button>
+                        <button class="btn btn-info" onclick="contactPlayers('${dispute.player1}', '${dispute.player2}')">Contact Players</button>
+                    </div>
+                `;
+                disputeListDiv.appendChild(disputeCard);
+            });
+        });
+
+        function resolveDispute(id, action) {
+            console.log(`Dispute ${id} ${action}`);
+            // Replace the following line with an actual server request
+            // Example: sendDisputeResolutionToServer(id, action);
+
+            // Simulate server response
+            setTimeout(() => {
+                document.getElementById('disputeMessage').innerText = `Dispute ${action === 'resolved' ? 'resolved' : 'rejected'} successfully!`;
+                document.getElementById('disputeMessage').classList.add('alert', action === 'resolved' ? 'alert-success' : 'alert-danger');
+            }, 1000);
+        }
+
+        function contactPlayers(player1, player2) {
+            console.log(`Contacting players: ${player1}, ${player2}`);
+            // Implement actual contact logic here
+            document.getElementById('disputeMessage').innerText = `Contact initiated with ${player1} and ${player2}.`;
+            document.getElementById('disputeMessage').classList.add('alert', 'alert-info');
+        }
+
+        // Example function to send dispute resolution to server (to be implemented)
+        function sendDisputeResolutionToServer(id, action) {
+            fetch(`/resolve-dispute/${id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ action }),
+            })
+            .then(response => response.json())
+            .then(result => {
+                document.getElementById('disputeMessage').innerText = `Dispute ${action} successfully!`;
+                document.getElementById('disputeMessage').classList.add('alert', action === 'resolved' ? 'alert-success' : 'alert-danger');
+            })
+            .catch(error => {
+                document.getElementById('disputeMessage').innerText = 'Error resolving dispute. Please try again.';
+                document.getElementById('disputeMessage').classList.add('alert', 'alert-danger');
+            });
+        }
+    </script>
+</body>
+</html>
