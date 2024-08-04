@@ -13,37 +13,9 @@
             <!-- Player list will be populated here -->
         </div>
     </div>
+    <a href="Login.html">Login</a><br/>
+    <a href="matchhistory.html">match history</a><br/>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('http://127.0.0.1:5000/players')
-                .then(response => response.json())
-                .then(players => {
-                    const playerListDiv = document.getElementById('playerList');
-                    players.forEach(player => {
-                        const playerCard = document.createElement('div');
-                        playerCard.className = 'card mb-3';
-                        playerCard.innerHTML = `
-                            <div class="card-body">
-                                <h5 class="card-title">${player.name}</h5>
-                                <p class="card-text">Interest: ${player.interest}</p>
-                                <p class="card-text">Rating: ${player.rating}</p>
-                                <p class="card-text">Gender: ${player.Gender}</p>
-                                <p class="card-text">Preferred Partner: ${player['preferred partner']}</p>
-                                <p class="card-text">Phone Number: ${player['phone number']}</p>
-                                <p class="card-text">Email: ${player.Email}</p>
-                                <p class="card-text">Singles/Doubles/Both: ${player['singles/doubles/both']}</p>
-                                <p class="card-text">Mixed Partner: ${player['Mixed partner']}</p>
-                            </div>
-                        `;
-                        playerListDiv.appendChild(playerCard);
-                    });
-                })
-                .catch(error => console.error('Error fetching players:', error));
-        });
-    </script>
+
 </body>
 </html>
